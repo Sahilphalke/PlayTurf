@@ -12,6 +12,12 @@ const registerSchema = joi.object({
   timezone: joi.string().optional(),
 });
 
+const loginSchema = joi.object({
+  email: joi.string().email().required(),
+  password: joi.string().required(),
+});
+
 module.exports = {
   registerSchema,
+  loginSchema,
 };

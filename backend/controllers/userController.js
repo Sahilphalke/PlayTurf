@@ -19,13 +19,31 @@ const register = async (req, res) => {
       timezone,
     };
 
-    const user = await userService.createUser(userData);
+    const user = await userService.register(userData);
     res.status(201).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const data = await userService.login(email, password);
+
+    res.json({
+      message: "Login successful",
+      ...data,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   register,
+  login,
 };

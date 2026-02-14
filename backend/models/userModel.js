@@ -35,7 +35,7 @@ const deleteUser = async (id) => {
   });
 };
 
-const findUserByEmail = async (email) => {
+const getUserByEmail = async (email) => {
   return await prisma.user.findUnique({
     where: {
       email,
@@ -49,5 +49,5 @@ module.exports = {
   getAllUsers,
   updateUser,
   deleteUser,
-  findUserByEmail,
+  getUserByEmail,
 };

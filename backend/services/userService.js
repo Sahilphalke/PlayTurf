@@ -1,11 +1,12 @@
 const userModel = require("../models/userModel");
 const { hashPassword, comparePassword } = require("../utils/hash");
+const { signAccessToken, signRefreshToken } = require("../utils/jwt");
 
-const createUser = async (data) => {
+const register = async (data) => {
   const { name, email, password, role, timezone } = data;
 
   // Existing user check
-  const existingUser = await userModel.findUserByEmail(email);
+  const existingUser = await userModel.getUserByEmail(email);
   if (existingUser) throw new Error("User already exists");
 
   // Hash password
@@ -20,6 +21,44 @@ const createUser = async (data) => {
   };
 
   return await userModel.createUser(userData);
+};
+
+const login = async (email, password) => {
+  // Find user
+  const user = await userModel.getUserByEmail(email);
+
+  if (!user) {
+    throw new Error("Invalid credentials");
+  }
+
+  // Compare password
+  const valid = await comparePassword(password, user.password);
+  if (!valid) {
+    throw new Error("Invalid credentials");
+  }
+
+  if (user.status === false) {
+    throw new Error("User is inactive");
+  }
+
+  // Generate tokens
+  const accessToken = signAccessToken({
+    id: user.id,
+    role: user.role,
+  });
+
+  const refreshToken = signRefreshToken({
+    id: user.id,
+  });
+
+  // Remove password before sending
+  delete user.password;
+
+  return {
+    accessToken,
+    refreshToken,
+    user,
+  };
 };
 
 const findUser = async (email) => {
@@ -39,7 +78,8 @@ const deleteUser = async (id) => {
 };
 
 module.exports = {
-  createUser,
+  register,
+  login,
   findUser,
   getAllUsers,
   updateUser,
