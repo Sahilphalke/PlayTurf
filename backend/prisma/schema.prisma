@@ -19,7 +19,7 @@ model User {
   email     String   @unique
   password  String
   role      Role     @default(USER)
-  timezone  String   @default("UTC")
+  timezone  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
