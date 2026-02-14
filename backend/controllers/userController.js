@@ -43,7 +43,25 @@ const login = async (req, res) => {
   }
 };
 
+const getProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const user = await userService.getProfile(userId);
+
+    res.json({
+      message: "Profile fetched successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
+  getProfile,
 };

@@ -61,6 +61,16 @@ const login = async (email, password) => {
   };
 };
 
+const getProfile = async (userId) => {
+  const user = await userModel.getUserById(userId);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return user;
+};
+
 const findUser = async (email) => {
   return await userModel.findUser(email);
 };
@@ -84,4 +94,5 @@ module.exports = {
   getAllUsers,
   updateUser,
   deleteUser,
+  getProfile,
 };
