@@ -3,7 +3,7 @@ const { hashPassword, comparePassword } = require("../utils/hash");
 const { signAccessToken, signRefreshToken } = require("../utils/jwt");
 
 const register = async (data) => {
-  const { name, email, password, role, timezone } = data;
+  const { name, email, password, contactNo, role, timezone } = data;
 
   // Existing user check
   const existingUser = await userModel.getUserByEmail(email);
@@ -16,6 +16,7 @@ const register = async (data) => {
     name,
     email,
     password: hashedPassword,
+    contactNo,
     role: role || "USER",
     timezone: timezone || "UTC",
   };

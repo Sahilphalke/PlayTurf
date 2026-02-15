@@ -2,10 +2,10 @@ const userService = require("../services/userService");
 
 const register = async (req, res) => {
   try {
-    const { name, email, password, role, timezone } = req.body;
+    const { name, email, password, contactNo, role, timezone } = req.body;
 
     // Basic validation
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !contactNo) {
       return res.status(400).json({
         error: "Name, email and password are required",
       });
@@ -15,6 +15,7 @@ const register = async (req, res) => {
       name,
       email,
       password,
+      contactNo,
       role,
       timezone,
     };

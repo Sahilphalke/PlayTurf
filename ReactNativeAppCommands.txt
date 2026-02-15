@@ -9,3 +9,5 @@ install express cors dotenv pg : npm install express cors dotenv pg
 Create React Native App : npx create-expo-app mobile
 Reset React Native App : npm run Reset-project
 To run App : npx expo
+Nativewind : npm install nativewind
+Initialize Tailwind : npx tailwindcss init
